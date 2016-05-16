@@ -248,7 +248,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -50
+      "y": -100
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -302,7 +302,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 1.1368683772161603e-13,
+      "x": 0,
       "y": 0
     },
     "_skewX": 0,
@@ -456,7 +456,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 97.87,
+      "width": 206.72,
       "height": 40
     },
     "_children": [],
@@ -498,7 +498,7 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_isSystemFontUsed": true,
-    "_N$string": "Label",
+    "_N$string": "Game Over",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$overflow": 0
