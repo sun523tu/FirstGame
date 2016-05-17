@@ -11,6 +11,37 @@ cc.Class({
         //    readonly: false,    // optional, default is false
         // },
         // ...
+
+        // 游戏要素
+        // desk：上下左右四张放牌的桌子
+        deskAnchors: {
+            default: [],
+            type: cc.Node
+        },
+
+        // 主牌
+        mainDesk: cc.Node,
+        // stackDesk，堆放牌
+        stackDeskAnchors: {
+            default: [],
+            type: cc.Node
+        },
+
+        // 牌的预制
+        cardPrefab: cc.Prefab,
+
+
+        assetMng: cc.Node,
+        audioMng: cc.Node,
+        turnDuration: 0,
+        betDuration: 0,
+
+        numberOfDecks: {
+            default: 1,
+            type: 'Integer'
+        },
+
+        // UI
         btnNode: {
             default: null,
             type: cc.Node
@@ -19,6 +50,10 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+    },
+
+    statics: {
+        instance: null
     },
 
     onStartGame: function () {
@@ -36,8 +71,35 @@ cc.Class({
         this.timer = 0;
     },
 
+    createDesks: function () {
+        // 初始化计分
+        for (var i = 0; i < 4; ++i) {
+            var cardNode = cc.instantiate(this.cardPrefab);
+            var anchor = this.deskAnchors[i];
+
+            anchor.addChild(cardNode);
+            cardNode.position = cc.p(0, 0);
+
+
+            // ActorRenderer
+
+        }
+    },
+
+    onEnterDealState: function () {
+        this.player.renderer.showStakeChips(this.player.stakeNum);
+        this.player.addCard(this.decks.draw());
+        var holdCard = this.decks.draw();
+        this.dealer.addHoleCard(holdCard);
+        this.player.addCard(this.decks.draw());
+        this.dealer.addCard(this.decks.draw());
+        this.audioMng.playCard();
+        //this.fsm.onDealed();
+    },
+
     // use this for initialization
     onLoad: function () {
+        this.createDesks();
 
     },
 
@@ -53,7 +115,7 @@ cc.Class({
         this.timer += dt;
     },
 
-        gameOver: function () {
+    gameOver: function () {
        this.gameOverNode.active = true;
        //this.player.enabled = false;
        //this.player.stopMove();

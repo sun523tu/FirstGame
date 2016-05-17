@@ -1,3 +1,4 @@
+// Card.js
 cc.Class({
     extends: cc.Component,
 
