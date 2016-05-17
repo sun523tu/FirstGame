@@ -46,7 +46,7 @@ cc.Class({
         if (!this.isRunning) return;
         // 每帧更新计时器，超过限度还没有生成新的星星
         // 就会调用游戏失败逻辑
-        if (this.timer > 10) {
+        if (this.timer > 3) {
             this.gameOver();
             return;
         }
