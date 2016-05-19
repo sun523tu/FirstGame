@@ -1,3 +1,6 @@
+var Types = require('Types');
+var Decks = require('Decks');
+
 cc.Class({
     extends: cc.Component,
 
@@ -69,6 +72,29 @@ cc.Class({
         // spawn star
         //this.spawnNewStar();
         this.timer = 0;
+        this.decks.reset();
+
+
+        for (var i = 0; i < 4; ++i) {
+            //var cardNode = cc.instantiate(this.cardPrefab);
+            //var anchor = this.deskAnchors[i];
+
+            //anchor.addChild(cardNode);
+            //cardNode.position = cc.p(0, 0);
+
+            // ActorRenderer
+
+            var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
+            var anchor = this.deskAnchors[i];
+            anchor.removeAllChildren();
+
+            anchor.addChild(newCard.node);
+            newCard.init(this.decks.draw());
+            newCard.reveal(true);
+
+            newCard.node.setPosition(0,0);
+        }
+
     },
 
     createDesks: function () {
@@ -80,10 +106,27 @@ cc.Class({
             anchor.addChild(cardNode);
             cardNode.position = cc.p(0, 0);
 
-
             // ActorRenderer
-
         }
+
+        var xStart = -50;
+        for (var i = 0; i <= 10; i++) {
+            var cardNode = cc.instantiate(this.cardPrefab);
+            //var anchor = this.deskAnchors[i];
+            //cardNode.card
+            //cardNode.reveal(true);
+
+            this.mainDesk.addChild(cardNode);
+            cardNode.position = cc.p((xStart + i * 5), 0);
+        }
+
+        //var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
+        var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
+
+        this.mainDesk.addChild(newCard.node);
+        //newCard.init(card);
+        newCard.reveal(false);
+        newCard.node.position = cc.p(15, 0);
     },
 
     onEnterDealState: function () {
@@ -100,6 +143,7 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
         this.createDesks();
+        this.decks = new Decks(this.numberOfDecks);
 
     },
 
