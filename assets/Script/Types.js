@@ -8,6 +8,7 @@ var Suit = cc.Enum({
     Diamond: 4, // 方块(红)
 });
 
+
 var A2_10JQK = 'NAN,A,2,3,4,5,6,7,8,9,10,J,Q,K'.split(',');
 
 /**
@@ -109,6 +110,7 @@ var Hand = cc.Enum({
 module.exports = {
     Suit: Suit,
     Card: Card,
+    //Dir: Dir,
     ActorPlayingState: ActorPlayingState,
     Hand: Hand,
     Outcome: Outcome,

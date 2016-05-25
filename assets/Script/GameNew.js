@@ -2,7 +2,7 @@ var Types = require('Types');
 var Decks = require('Decks');
 
 // 方向
-var Dir = cc.Enum({
+var Dirt = cc.Enum({
     Up: 1,   // 黑桃
     Left: 2,   // 红桃
     Down: 3,    // 梅花(黑)
@@ -23,7 +23,7 @@ cc.Class({
         //    readonly: false,    // optional, default is false
         // },
         // ...
-
+        
         // 游戏要素
         // desk：上下左右四张放牌的桌子
         deskAnchors: {
@@ -38,10 +38,8 @@ cc.Class({
         cardPrefab: cc.Prefab,
 
 
-        assetMng: cc.Node,
-        audioMng: cc.Node,
-        turnDuration: 0,
-        betDuration: 0,
+        //assetMng: cc.Node,
+        //audioMng: cc.Node,
 
         numberOfDecks: {
             default: 1,
@@ -53,9 +51,15 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+
+        scoreDisplay: {
+            default: null,
+            type: cc.Label,
+        },
+
         gameOverNode: {
             default: null,
-            type: cc.Node
+            type: cc.Node,
         },
     },
 
@@ -71,10 +75,8 @@ cc.Class({
         // set button and gameover text out of screen
         this.btnNode.setPositionX(3000);
         this.gameOverNode.active = false;
-        // reset player position and move speed
-        //this.player.startMoveAt(cc.p(0, this.groundY));
-        // spawn star
-        //this.spawnNewStar();
+
+        this.accDir = 0;
         this.timer = 0;
         this.decks.reset();
 
@@ -93,55 +95,29 @@ cc.Class({
             anchor.removeAllChildren();
 
             anchor.addChild(newCard.node);
-            newCard.init(this.decks.draw());
+            this.cards[i] = this.decks.draw();
+            newCard.init(this.cards[i]);
             newCard.reveal(true);
 
             newCard.node.setPosition(0,0);
         }
 
-    },
+        //var newCard1 = cc.instantiate(this.cardPrefab).getComponent('Card');
+        //this.mainDesk.addChild(newCard1.node);
+        
+        //this.playercards = this.decks.draw();
+        //newCard1.init(this.cards[i]);
+        //newCard1.reveal(true);
 
-    createDesks: function () {
-        // 初始化计分
-        for (var i = 0; i < 4; ++i) {
-            var cardNode = cc.instantiate(this.cardPrefab);
-            var anchor = this.deskAnchors[i];
+        //newCard1.node.setPosition(15,0);
 
-            anchor.addChild(cardNode);
-            cardNode.position = cc.p(0, 0);
-
-            // ActorRenderer
-        }
-
-        var xStart = -50;
-        for (var i = 0; i <= 10; i++) {
-            var cardNode = cc.instantiate(this.cardPrefab);
-            //var anchor = this.deskAnchors[i];
-            //cardNode.card
-            //cardNode.reveal(true);
-
-            this.mainDesk.addChild(cardNode);
-            cardNode.position = cc.p((xStart + i * 5), 0);
-        }
 
         //var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
-        var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
 
-        this.mainDesk.addChild(newCard.node);
+        //this.mainDesk.addChild(newCard.node);
         //newCard.init(card);
-        newCard.reveal(false);
-        newCard.node.position = cc.p(15, 0);
-    },
-
-    onEnterDealState: function () {
-        this.player.renderer.showStakeChips(this.player.stakeNum);
-        this.player.addCard(this.decks.draw());
-        var holdCard = this.decks.draw();
-        this.dealer.addHoleCard(holdCard);
-        this.player.addCard(this.decks.draw());
-        this.dealer.addCard(this.decks.draw());
-        this.audioMng.playCard();
-        //this.fsm.onDealed();
+        //newCard.reveal(false);
+        //newCard.node.position = cc.p(15, 0);
     },
 
     // use this for initialization
@@ -149,19 +125,22 @@ cc.Class({
         this.createDesks();
         this.decks = new Decks(this.numberOfDecks);
 
+        this.cards = new Array(5);
+        this.playercards = null;
 
-        this.enabled = false;
+
+        //this.enabled = false;
         this.timer= 0;
         this.isRunning = false;
 
         this.score = "";
 
-        this.accDir = Dir.Center;
+        this.accDir = Dirt.Center;
 
         // 初始化键盘输入监听
         this.setInputControl();
-    },
 
+    },
 
 
     setInputControl: function () {
@@ -182,21 +161,21 @@ cc.Class({
                 switch(keyCode) {
                     case cc.KEY.a:
                     case cc.KEY.left:
-                        this.accDir = Dir.Left;
+                        self.accDir = Dirt.Left;
                         break;
                     case cc.KEY.d:
                     case cc.KEY.right:
-                        this.accDir = Dir.Right;
+                        self.accDir = Dirt.Right;
                         break;
 
                     case cc.KEY.w:
                     case cc.KEY.up:
-                        this.accDir = Dir.Up;
+                        self.accDir = Dirt.Up;
                         break;
 
                     case cc.KEY.s:
                     case cc.KEY.down:
-                        this.accDir = Dir.Down;
+                        self.accDir = Dirt.Down;
                         break;
                     }
             }
@@ -226,51 +205,85 @@ cc.Class({
                 {
                     if (ppEnd.x > ppStart.x)
                     {
-                        this.accDir = Dir.Left;
+                        self.accDir = Dirt.Right;
                     } else {
-                        this.accDir = Dir.Right;
+                        self.accDir = Dirt.Left;
                     }
                 } else {
                     if(ppEnd.y > ppStart.y)
                     {
-                        this.accDir = Dir.Up;
+                        self.accDir = Dirt.Up;
                     } else {
-                        this.accDir = Dir.Down;
+                        self.accDir = Dirt.Down;
                     }
                 }
             }
         }, self.node);
     },
-   
+
+    createDesks: function () {
+        // 初始化计分
+        for (var i = 0; i < 4; ++i) {
+            var cardNode = cc.instantiate(this.cardPrefab);
+            var anchor = this.deskAnchors[i];
+
+            anchor.addChild(cardNode);
+            cardNode.position = cc.p(0, 0);
+
+            // ActorRenderer
+        }
+
+        var xStart = -50;
+        for (var i = 0; i <= 10; i++) {
+            var cardNode = cc.instantiate(this.cardPrefab);
+            //var anchor = this.deskAnchors[i];
+            //cardNode.card
+            //cardNode.reveal(true);
+
+            this.mainDesk.addChild(cardNode);
+            //cardNode.reveal(false);
+            cardNode.position = cc.p((xStart + i * 5), 0);
+        }
+
+        //var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
+        //var newCard = cc.instantiate(this.cardPrefab).getComponent('Card');
+
+        //this.mainDesk.addChild(newCard.node);
+        //newCard.init(card);
+        //newCard.reveal(false);
+        //newCard.node.position = cc.p(15, 0);
+    },
 
     // called every frame, uncomment this function to activate update callback
     update: function (dt) {
         if (!this.isRunning) return;
         // 每帧更新计时器，超过限度还没有生成新的星星
         // 就会调用游戏失败逻辑
-        if (this.timer > 1) {
+        if (this.timer > 150) {
             this.gameOver();
             return;
         }
+
         this.timer += dt;
         this.score = "";
         switch(this.accDir){
-            case Dir.Up:
+            case Dirt.Up:
                 this.score = "Up";
                 break;
-            case Dir.Left:
+            case Dirt.Left:
                 this.score = "Left";
                 break;
-            case Dir.Down:
+            case Dirt.Down:
                 this.score = "Down";
                 break;
-            case Dir.Right:
+            case Dirt.Right:
                 this.score = "Right";
                 break;
+            default:
+                this.score = "Center";
+                break;
         }
-        this.scoreDisplay.string = 'Score: 2' + this.score.toString();
-        this.scoreDisplay.string = 'Score: ' + this.score.toString();
-
+        this.scoreDisplay.string = 'Score: ' + this.score;
     },
 
     gameOver: function () {
@@ -280,5 +293,6 @@ cc.Class({
        //this.currentStar.destroy();
        this.isRunning = false;
        this.btnNode.setPositionX(0);
+       this.score = 0;
     },
 });

@@ -80,10 +80,10 @@
         "__id__": 16
       },
       {
-        "__id__": 24
+        "__id__": 26
       },
       {
-        "__id__": 26
+        "__id__": 25
       }
     ],
     "_rotationX": 0,
@@ -814,7 +814,7 @@
     "target": {
       "__id__": 22
     },
-    "component": "Game",
+    "component": "GameNew",
     "handler": "onStartGame"
   },
   {
@@ -870,7 +870,7 @@
     "_prefab": null
   },
   {
-    "__type__": "74b49/fPVtO/bXbhQMSvWBu",
+    "__type__": "ca120duU1ZFPa68qp1OJ5ZD",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -882,92 +882,38 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 12
       },
       {
         "__id__": 10
       },
       {
-        "__id__": 12
+        "__id__": 8
       }
     ],
     "mainDesk": {
       "__id__": 4
     },
-    "stackDeskAnchors": [],
     "cardPrefab": {
       "__uuid__": "f500b259-0897-4b6c-b1ab-92f995d7f733"
     },
-    "assetMng": null,
-    "audioMng": null,
-    "turnDuration": 0,
-    "betDuration": 0,
     "numberOfDecks": 1,
     "btnNode": {
       "__id__": 16
     },
-    "gameOverNode": {
+    "scoreDisplay": {
       "__id__": 24
+    },
+    "gameOverNode": {
+      "__id__": 26
     }
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "GameOver",
-    "_objFlags": 0,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_cascadeOpacityEnabled": true,
-    "_parent": {
-      "__id__": 2
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 206.72,
-      "height": 40
-    },
-    "_children": [],
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
-    "_position": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 100
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_localZOrder": 0,
-    "_globalZOrder": 0,
-    "_tag": -1,
-    "_opacityModifyRGB": false,
-    "_reorderChildDirty": false,
-    "_id": "d619bPbAl9BxavXkFAdhuFQ",
-    "_active": false,
-    "_components": [
-      {
-        "__id__": 25
-      }
-    ],
-    "_prefab": null
   },
   {
     "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 24
+      "__id__": 25
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -975,7 +921,7 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_isSystemFontUsed": true,
-    "_N$string": "Game Over",
+    "_N$string": "Score:0",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$overflow": 0
@@ -1027,6 +973,58 @@
     "_active": true,
     "_components": [
       {
+        "__id__": 24
+      }
+    ],
+    "_prefab": null
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "GameOver",
+    "_objFlags": 0,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_parent": {
+      "__id__": 2
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 206.72,
+      "height": 40
+    },
+    "_children": [],
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 100
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_tag": -1,
+    "_opacityModifyRGB": false,
+    "_reorderChildDirty": false,
+    "_id": "d619bPbAl9BxavXkFAdhuFQ",
+    "_active": false,
+    "_components": [
+      {
         "__id__": 27
       }
     ],
@@ -1045,7 +1043,7 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_isSystemFontUsed": true,
-    "_N$string": "Score:0",
+    "_N$string": "Game Over",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$overflow": 0
